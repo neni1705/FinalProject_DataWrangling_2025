@@ -10,6 +10,7 @@ Anda akan:
 Proyek ini dirancang menyerupai alur kerja data scientist profesional di industri.
 
 Repositori GitHub Anda harus mengikuti struktur berikut:
+```
 final-project/
 │
 ├── data/
@@ -21,6 +22,7 @@ final-project/
 │
 ├── requirements.txt         # Daftar package Python yang digunakan
 └── README.md                # File yang menjelaskan final project
+```
 Pilih satu dari dataset berikut (akses data dari link Github berikut):
 i.	Hotel Bookings Data
 o	Data pemesanan hotel (kapan, lama menginap, pembatalan, dsb.)
