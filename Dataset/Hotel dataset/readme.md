@@ -10,26 +10,7 @@ Also shoutout to a series of packages for time-series analysis and plotting - [`
 - [`feasts`](https://feasts.tidyverts.org/) - Feature Extraction And Statistics for Time Series.
 - [`fable`](https://fable.tidyverts.org/) - Commonly used time-series forecasting
 
-### Get the data here
 
-```r
-# Get the Data
-
-hotels <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-11/hotels.csv')
-
-# Or read in with tidytuesdayR package (https://github.com/dslc-io/tidytuesdayR)
-# PLEASE NOTE TO USE 2020 DATA YOU NEED TO USE tidytuesdayR version ? from GitHub
-
-# Either ISO-8601 date or year/week works!
-
-# Install via pak::pak("dslc-io/tidytuesdayR")
-
-tuesdata <- tidytuesdayR::tt_load('2020-02-11')
-tuesdata <- tidytuesdayR::tt_load(2020, week = 7)
-
-
-hotels <- tuesdata$hotels
-```
 ### Data Dictionary
 
 |variable                       |class     |description |
@@ -67,42 +48,5 @@ hotels <- tuesdata$hotels
 |reservation_status             |character | Reservation last status, assuming one of three categories:<br>Canceled – booking was canceled by the customer;<br>Check-Out – customer has checked in but already departed;<br>No-Show – customer did not check-in and did inform the hotel of the reason why |
 |reservation_status_date        |double    | Date at which the last status was set. This variable can be used in conjunction with the ReservationStatus to understand when was the booking canceled or when did the customer checked-out of the hotel|
 
-# `hotels.csv`
 
-### Cleaning Script
 
-```r
-library(tidyverse)
-library(feasts)
-
-# resort hotel
-h1 <- read_csv(here::here("2020", "2020-02-11", "H1.csv")) %>% 
-  janitor::clean_names() %>% 
-  mutate(hotel = "Resort Hotel") %>% 
-  select(hotel, everything())
-
-# city hotel
-h2 <- read_csv(here::here("2020", "2020-02-11", "H2.csv")) %>% 
-  janitor::clean_names() %>% 
-  mutate(hotel = "City Hotel") %>% 
-  select(hotel, everything())
-
-hotel_df <- bind_rows(h1, h2)
-
-hotel_plot <- hotel_df %>% 
-  filter(hotel == "City Hotel") %>%
-  mutate(date = glue::glue("{arrival_date_year}-{arrival_date_month}-{arrival_date_day_of_month}"),
-         date = parse_date(date, format = "%Y-%B-%d")) %>% 
-  select(date, everything()) %>% 
-  arrange(date) %>% 
-  count(date) %>% 
-  rename(daily_bookings = n) %>% 
-  tsibble::as_tsibble() %>% 
-  model(STL(daily_bookings ~ season(window = Inf))) %>% 
-  components() %>% autoplot()
-
-hotel_plot
-
-ggsave("hotel_bookings.png", hotel_plot, path = here::here("2020", "2020-02-11"), dpi = "retina")
-
-```
