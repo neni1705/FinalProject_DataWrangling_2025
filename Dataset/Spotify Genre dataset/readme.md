@@ -8,26 +8,7 @@ The data this week comes from Spotify via the [`spotifyr` package](https://www.r
 
 h/t to [Jon Harmon](https://github.com/rfordatascience/tidytuesday/issues/160) & [Neal Grantham](https://twitter.com/nsgrantham/status/1213190975113199616).
 
-### Get the data here
 
-```r
-# Get the Data
-
-spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-01-21/spotify_songs.csv')
-
-# Or read in with tidytuesdayR package (https://github.com/dslc-io/tidytuesdayR)
-# PLEASE NOTE TO USE 2020 DATA YOU NEED TO UPDATE tidytuesdayR from GitHub
-
-# Either ISO-8601 date or year/week works!
-
-# Install via pak::pak("dslc-io/tidytuesdayR")
-
-tuesdata <- tidytuesdayR::tt_load('2020-01-21') 
-tuesdata <- tidytuesdayR::tt_load(2020, week = 4)
-
-
-spotify_songs <- tuesdata$spotify_songs
-```
 ### Data Dictionary
 
 # `spotify_songs.csv`
